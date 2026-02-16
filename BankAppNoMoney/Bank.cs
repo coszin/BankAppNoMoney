@@ -28,6 +28,7 @@ internal class Bank
         return accounts;
     }
 
+    //HANTERAR HUVUDMENYN, OCH HANTERAR INVALIDA VAL
     internal void ShowBankMenu()
     {
         do
@@ -70,6 +71,7 @@ internal class Bank
         } while (true);
     }
 
+    //HANTERAR DE OLIKA ALTERNATIVEN FÖR ETT KONTO, OCH HANTERAR TOMMA KONTONAMN
     private void AccountOptions()
     {
             var accountList = GetAccounts();
@@ -154,6 +156,7 @@ internal class Bank
         } while (true);
     }
 
+    //ALLA KONTO OCH DERAS SALDO, OCH HANTERAR TOMMA KONTONAMN
     private void ShowAccounts()
     {
         Console.Clear();
@@ -179,6 +182,7 @@ internal class Bank
         Console.ReadKey(true);
     }
 
+    //HANTERAR BORTTAGNING AV KONTO, OCH HANTERAR TOMMA KONTONAMN
     private void DeleteAccount()
     {
         var accountList = GetAccounts();
@@ -207,6 +211,7 @@ internal class Bank
         Console.ReadKey(true);
     }
 
+    //HANTERAR SKAPANDE AV KONTO, OCH HANTERAR TOMMA KONTONAMN
     private void CreateAccount()
     {
         List<string> AccountType = new List<string>
@@ -260,6 +265,7 @@ internal class Bank
         Console.ReadKey(true);
     }
 
+    // HANTERAR MENYN, OCH HANTERAR INVALIDA VAL
     static int PrintMenu(List<string> menu, int index)
     {
         if (menu == null || menu.Count == 0)
@@ -297,6 +303,7 @@ internal class Bank
         return current;
     }
 
+    // RITAR MENYN, OCH VISAR VILKET ALTERNATIV SOM ÄR VALT
     static void DrawMenu(List<string> menu, int selectedIndex)
     {
         for (int i = 0; i < menu.Count; i++)
