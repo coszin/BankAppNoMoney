@@ -1,4 +1,5 @@
-﻿using BankAppNoMoney.Accounts;
+﻿using BankAppNoMoney;
+using BankAppNoMoney.Accounts;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,20 +8,26 @@ namespace BankAppNoMoney.Base
 {
     internal class SubMenus
     {
-        MenuLogic menu = new MenuLogic();
-        Bank bank = new Bank();
+        private readonly MenuLogic menu;
+        private readonly Bank bank;
+
+        internal SubMenus(Bank bank)
+        {
+            this.menu = new MenuLogic();
+            this.bank = bank ?? throw new ArgumentNullException(nameof(bank));
+        }
 
         public void subMenuOptions(AccountBase selectedAccount)
         {
             do
             {
                 List<string> options = new List<string>
-        {
-            "Deposit",
-            "Withdraw",
-            "Balance",
-            "Back to main menu"
-        };
+                {
+                    "Deposit",
+                    "Withdraw",
+                    "Balance",
+                    "Back to main menu"
+                };
 
                 int opt = menu.PrintMenu(options, 0);
 

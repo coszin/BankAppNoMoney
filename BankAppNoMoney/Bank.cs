@@ -30,7 +30,7 @@ internal class Bank
 
     internal void ShowBankMenu()
     {
-        Menus menu = new Menus();
+        Menus menu = new Menus(this);
         menu.ShowBankMenu();
     }
 }

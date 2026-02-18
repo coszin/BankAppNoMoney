@@ -1,32 +1,42 @@
-﻿using BankAppNoMoney.Accounts;
+﻿using BankAppNoMoney;
+using BankAppNoMoney.Accounts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace BankAppNoMoney.Base
 {
     internal class Menus
     {
-        MenuLogic menu = new MenuLogic();
-        Bank bank = new Bank();
-        SubMenus subMenu = new SubMenus();
+        private readonly MenuLogic menu;
+        private readonly Bank bank;
+        private readonly SubMenus subMenu;
+
+        internal Menus(Bank bank)
+        {
+            this.menu = new MenuLogic();
+            this.bank = bank ?? throw new ArgumentNullException(nameof(bank));
+            this.subMenu = new SubMenus(this.bank);
+        }
 
         //HANTERAR HUVUDMENYN, OCH HANTERAR INVALIDA VAL
         internal void ShowBankMenu()
         {
             do
             {
-                List<string> menu = new List<string>
-            {
-                "Skapa konto",
-                "Ta bort konto",
-                "Visa konton",
-                "Hantera konto",
-                "Avsluta"
-            };
+                List<string> menuItems = new List<string>
+                {
+                    "Skapa konto",
+                    "Ta bort konto",
+                    "Visa konton",
+                    "Hantera konto",
+                    "Avsluta"
+                };
 
                 int index = 0;
-                int choice = this.menu.PrintMenu(menu, index);
+                int choice = this.menu.PrintMenu(menuItems, index);
 
                 switch (choice)
                 {
@@ -141,11 +151,11 @@ namespace BankAppNoMoney.Base
         public void CreateAccount()
         {
             List<string> AccountType = new List<string>
-        {
-            "BankAccount",
-            "IskAccount",
-            "UddevallaAccount"
-        };
+            {
+                "BankAccount",
+                "IskAccount",
+                "UddevallaAccount"
+            };
             int choice = menu.PrintMenu(AccountType, 0);
 
             if (choice < 0 || choice >= AccountType.Count)
