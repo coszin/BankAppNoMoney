@@ -8,6 +8,7 @@ namespace BankAppNoMoney.Base
     internal class SubMenus
     {
         MenuLogic menu = new MenuLogic();
+        Bank bank = new Bank();
 
         public void subMenuOptions(AccountBase selectedAccount)
         {
