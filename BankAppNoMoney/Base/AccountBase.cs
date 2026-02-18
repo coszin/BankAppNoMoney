@@ -12,7 +12,7 @@ internal abstract class AccountBase
 
     internal abstract decimal Balance();
 
-    internal virtual void Deposit(decimal amount)
+    internal virtual void  Deposit(decimal amount)
     {
         var t = new BankTransaction
         {
