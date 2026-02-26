@@ -67,15 +67,15 @@ namespace BankAppNoMoney.Base
         //HANTERAR DE OLIKA ALTERNATIVEN FÖR ETT KONTO, OCH HANTERAR TOMMA KONTONAMN
         public void AccountOptions()
         {
-            var accountList = bank.GetAccounts();
-            if (accountList.Count == 0)
+            var AccountList = bank.GetAccounts();
+            if (AccountList.Count == 0)
             {
                 Console.WriteLine("Inga konton hittades. Tryck valfri tangent för att fortsätta...");
                 Console.ReadKey(true);
                 return;
             }
 
-            List<string> pairs = accountList
+            List<string> pairs = AccountList
                 .Select(a => $"AccountName: {(string.IsNullOrWhiteSpace(a.AccountName) ? "(utan namn)" : a.AccountName)} - AccountNumber: {a.AccountNumber}")
                 .ToList();
 
@@ -87,7 +87,7 @@ namespace BankAppNoMoney.Base
                 return;
             }
 
-            var selectedAccount = accountList[accountIndex];
+            var selectedAccount = AccountList[accountIndex];
 
             subMenu.subMenuOptions(selectedAccount);
         }
@@ -97,22 +97,18 @@ namespace BankAppNoMoney.Base
         {
             Console.Clear();
 
-            var accountList = bank.GetAccounts();
-            if (accountList.Count == 0)
-            {
-                Console.WriteLine("Inga konton hittades.");
-            }
+            var AccountList = bank.GetAccounts();
+            if (AccountList.Count == 0) { Console.WriteLine("Inga konton hittades."); }
             else
             {
                 Console.WriteLine("Lista över konton:");
-                for (int i = 0; i < accountList.Count; i++)
+                for (int i = 0; i < AccountList.Count; i++)
                 {
-                    var acc = accountList[i];
+                    var acc = AccountList[i];
                     var name = string.IsNullOrWhiteSpace(acc.AccountName) ? "(utan namn)" : acc.AccountName;
                     Console.WriteLine($"{i + 1}. AccountNumber: {acc.AccountNumber}  -  AccountName: {name}  -  Saldo: {acc.Balance()}");
                 }
             }
-
             Console.WriteLine();
             Console.WriteLine("Tryck valfri tangent för att fortsätta...");
             Console.ReadKey(true);
@@ -121,30 +117,39 @@ namespace BankAppNoMoney.Base
         //HANTERAR BORTTAGNING AV KONTO, OCH HANTERAR TOMMA KONTONAMN
         public void DeleteAccount()
         {
-            var accountList = bank.GetAccounts();
-            if (accountList.Count == 0)
+            var AccountList = bank.GetAccounts();
+            if (AccountList.Count == 0)
             {
                 Console.WriteLine("No accounts could be found, press any key to continue...");
                 Console.ReadKey(true);
                 return;
             }
 
-            List<string> pairs = accountList
+            List<string> ListAccounts = AccountList
                 .Select(a => $"AccountName: {(string.IsNullOrWhiteSpace(a.AccountName) ? "(utan namn)" : a.AccountName)} - AccountNumber: {a.AccountNumber}")
                 .ToList();
+            bool flowControl = NewMethod(AccountList, ListAccounts);
+            if (!flowControl)
+            {
+                return;
+            }
+        }
 
-            int choice = menu.PrintMenu(pairs, 0);
-            if (choice < 0 || choice >= pairs.Count)
+        private bool NewMethod(List<AccountBase> AccountList, List<string> ListAccounts)
+        {
+            int choice = menu.PrintMenu(ListAccounts, 0);
+            if (choice < 0 || choice >= ListAccounts.Count)
             {
                 Console.WriteLine("Invalid selection. Tryck valfri tangent...");
                 Console.ReadKey(true);
-                return;
+                return false;
             }
 
-            var accountToDelete = accountList[choice];
+            var accountToDelete = AccountList[choice];
             bank.RemoveAccount(accountToDelete.Id);
             Console.WriteLine("Konto borttaget. Tryck valfri tangent för att fortsätta...");
             Console.ReadKey(true);
+            return true;
         }
 
         //HANTERAR SKAPANDE AV KONTO, OCH HANTERAR TOMMA KONTONAMN
