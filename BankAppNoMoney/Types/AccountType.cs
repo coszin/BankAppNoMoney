@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankAppNoMoney.Types
 {
-    public enum AccountType
+    internal enum AccountType
     {
         BankAccount = 0,
         IskAccount = 1,

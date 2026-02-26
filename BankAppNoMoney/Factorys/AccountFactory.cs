@@ -4,25 +4,25 @@ using BankAppNoMoney.Models;
 using BankAppNoMoney.Types;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace BankAppNoMoney.Factorys;
 
-internal static class AccountFactory
+public static class AccountFactory
 {
     internal static AccountBase CreateAccount(AccountDetails accountDetails)
     {
         switch (accountDetails.AccountType)
         {
             case AccountType.BankAccount:
-                    break;
+                return new BankAccount(accountDetails.AccountName, accountDetails.AccountNumber, accountDetails.StartingBalance);
             case AccountType.IskAccount:
-                    break;
+                return new IskAccount(accountDetails.AccountName, accountDetails.AccountNumber, accountDetails.StartingBalance);
             case AccountType.UddevallaAccount:
-                    break;
+                return new UddevallaAccount(accountDetails.AccountName, accountDetails.AccountNumber, accountDetails.StartingBalance);
             default:
-                break;
+                throw new NotImplementedException("A missing account option in factorys");
         }
-        return default;
     }
 }

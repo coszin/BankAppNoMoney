@@ -1,5 +1,6 @@
 ﻿using BankAppNoMoney;
 using BankAppNoMoney.Accounts;
+using BankAppNoMoney.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace BankAppNoMoney.Base
         private readonly MenuLogic menu;
         private readonly Bank bank;
         private readonly SubMenus subMenu;
+        private readonly AccountDetails accountDetails;
 
         internal Menus(Bank bank)
         {
@@ -41,7 +43,7 @@ namespace BankAppNoMoney.Base
                 switch (choice)
                 {
                     case 0:
-                        CreateAccount();
+                        CreateAccount(accountDetails);
                         break;
                     case 1:
                         DeleteAccount();
@@ -128,14 +130,14 @@ namespace BankAppNoMoney.Base
             List<string> ListAccounts = AccountList
                 .Select(a => $"AccountName: {(string.IsNullOrWhiteSpace(a.AccountName) ? "(utan namn)" : a.AccountName)} - AccountNumber: {a.AccountNumber}")
                 .ToList();
-            bool flowControl = NewMethod(AccountList, ListAccounts);
+            bool flowControl = AccountRemove(AccountList, ListAccounts);
             if (!flowControl)
             {
                 return;
             }
         }
 
-        private bool NewMethod(List<AccountBase> AccountList, List<string> ListAccounts)
+        private bool AccountRemove(List<AccountBase> AccountList, List<string> ListAccounts)
         {
             int choice = menu.PrintMenu(ListAccounts, 0);
             if (choice < 0 || choice >= ListAccounts.Count)
@@ -153,7 +155,7 @@ namespace BankAppNoMoney.Base
         }
 
         //HANTERAR SKAPANDE AV KONTO, OCH HANTERAR TOMMA KONTONAMN
-        public void CreateAccount()
+        public void CreateAccount(AccountDetails accountDetails)
         {
             List<string> AccountType = new List<string>
             {
@@ -167,7 +169,7 @@ namespace BankAppNoMoney.Base
                 throw new InvalidOperationException("Invalid menu choice");
 
             Console.Clear();
-            subMenu.SubMenuCreate(choice);
+            subMenu.SubMenuCreate(choice, accountDetails);
         }
     }
 }

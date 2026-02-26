@@ -1,5 +1,8 @@
 ﻿using BankAppNoMoney;
 using BankAppNoMoney.Accounts;
+using BankAppNoMoney.Factorys;
+using BankAppNoMoney.Models;
+using BankAppNoMoney.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +13,7 @@ namespace BankAppNoMoney.Base
     {
         private readonly MenuLogic menu;
         private readonly Bank bank;
+        private readonly AccountType accountType;
 
         internal SubMenus(Bank bank)
         {
@@ -110,27 +114,19 @@ namespace BankAppNoMoney.Base
 
         public void SubMenuCreate(int choice)
         { 
-            string accountNumber = Kontonummer();
-            string accountName = Kontonamn();
-            decimal startingBalance = KontoBalance();
+            var number = Kontonummer();
+            var namn = Kontonamn();
+            var saldo = KontoBalance();
+            
+            AccountDetails(number, namn, saldo);
 
-            if (choice == 0)
-            {
-                bank.AddAccount(new BankAccount(accountNumber, accountName, startingBalance));
-            }
-            else if (choice == 1)
-            {
-                bank.AddAccount(new IskAccount(accountNumber, accountName, startingBalance));
-            }
-            else if (choice == 2)
-            {
-                bank.AddAccount(new UddevallaAccount(accountNumber, accountName, startingBalance));
-            }
+            var account = AccountFactory.CreateAccount(accountDetails);
+
             Console.WriteLine("Konto skapat. Tryck valfri tangent för att fortsätta...");
             Console.ReadKey(true);
         }
 
-        private decimal KontoBalance()
+        private static decimal KontoBalance()
         {
             Console.Write("Ange saldo: ");
             bool TF = decimal.TryParse(Console.ReadLine()?.Trim(), out decimal KontoBalance);
@@ -139,10 +135,10 @@ namespace BankAppNoMoney.Base
                 Console.Write("Saldo får inte vara negativt och måste vara siffror: ");
                 TF = decimal.TryParse(Console.ReadLine()?.Trim(), out KontoBalance);
             }
-            return KontoBalance;
+         return KontoBalance;
         }
 
-        private static string Kontonummer()
+        private static int Kontonummer()
         {
             Console.Write("Ange kontonummer: ");
             bool TF = decimal.TryParse(Console.ReadLine()?.Trim(), out decimal accountNumber);
@@ -151,7 +147,7 @@ namespace BankAppNoMoney.Base
                 Console.Write("Kontonummer får inte vara tomt och måste vara sifror. Ange kontonummer: ");
                 TF = decimal.TryParse(Console.ReadLine()?.Trim(), out accountNumber);
             }
-            return accountNumber.ToString();
+            return accountNumber;
         }
 
         private static string Kontonamn()
