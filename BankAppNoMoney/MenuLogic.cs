@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BankAppNoMoney.Base;
+namespace BankAppNoMoney;
 
 public class MenuLogic
 {

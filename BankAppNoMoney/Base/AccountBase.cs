@@ -4,11 +4,11 @@ internal abstract class AccountBase
 {
     internal Guid Id { get; set; } = Guid.NewGuid();
     protected decimal StartingBalance { get; set; } = 0;
-    internal string AccountName { get; set; } = "";
-    internal string AccountNumber { get; set; } = "";
+    internal string AccountName { get; set; } = string.Empty;
+    internal string AccountNumber { get; set; } = string.Empty;
     internal decimal InterestRate { get; set; } = 0;
 
-    protected List<BankTransaction> bankTransactions = new List<BankTransaction>();
+    protected List<BankTransaction> bankTransactions = [];
 
     internal abstract decimal Balance();
 
@@ -40,3 +40,10 @@ internal abstract class AccountBase
         bankTransactions.Add(t);
     }
 }
+/*● Banker kollar inte saldot i december 2025 och räknar ut ränta för hela året.
+● Utan kollar saldot för varje dag och räknar ut summan
+● Använd 365 dagar.
+● Lägg denna funktion i basklassen
+● Ge den ett bra namn och skall returnera ett decimaltal.
+● Använd testdata. Lägg in 10 insättningar under året, sätt en ränta.
+● Testdata ska inte vara random, blir svårare vid felsökning.*/

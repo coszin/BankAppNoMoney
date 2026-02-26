@@ -112,21 +112,34 @@ namespace BankAppNoMoney.Base
         { 
             string accountNumber = Kontonummer();
             string accountName = Kontonamn();
+            decimal startingBalance = KontoBalance();
 
             if (choice == 0)
             {
-                bank.AddAccount(new BankAccount(accountNumber, accountName));
+                bank.AddAccount(new BankAccount(accountNumber, accountName, startingBalance));
             }
             else if (choice == 1)
             {
-                bank.AddAccount(new IskAccount(accountNumber, accountName));
+                bank.AddAccount(new IskAccount(accountNumber, accountName, startingBalance));
             }
             else if (choice == 2)
             {
-                bank.AddAccount(new UddevallaAccount(accountNumber, accountName));
+                bank.AddAccount(new UddevallaAccount(accountNumber, accountName, startingBalance));
             }
             Console.WriteLine("Konto skapat. Tryck valfri tangent för att fortsätta...");
             Console.ReadKey(true);
+        }
+
+        private decimal KontoBalance()
+        {
+            Console.Write("Ange saldo: ");
+            bool TF = decimal.TryParse(Console.ReadLine()?.Trim(), out decimal KontoBalance);
+            while (!TF && KontoBalance > 0)
+            {
+                Console.Write("Saldo får inte vara negativt och måste vara siffror: ");
+                TF = decimal.TryParse(Console.ReadLine()?.Trim(), out KontoBalance);
+            }
+            return KontoBalance;
         }
 
         private static string Kontonummer()

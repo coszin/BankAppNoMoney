@@ -26,14 +26,14 @@ namespace BankAppNoMoney.Base
         {
             do
             {
-                List<string> menuItems = new List<string>
-                {
+                List<string> menuItems =
+                [
                     "Skapa konto",
                     "Ta bort konto",
                     "Visa konton",
                     "Hantera konto",
                     "Avsluta"
-                };
+                ];
 
                 int index = 0;
                 int choice = this.menu.PrintMenu(menuItems, index);

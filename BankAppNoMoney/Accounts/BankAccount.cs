@@ -4,10 +4,11 @@ namespace BankAppNoMoney.Accounts;
 
 internal class BankAccount : AccountBase
 {
-    internal BankAccount(string accountNumber, string accountName = "")
+    internal BankAccount(string accountNumber, string accountName = "", decimal startingBalance = 0)
     {
         AccountNumber = accountNumber;
         AccountName = accountName;
+        StartingBalance = startingBalance;
     }
 
     internal override decimal Balance()

@@ -7,7 +7,7 @@ namespace BankAppNoMoney;
 
 internal class Bank
 {
-    private List<AccountBase> accounts = new List<AccountBase>();
+    private List<AccountBase> accounts = [];
 
     internal void AddAccount(AccountBase account)
     {
@@ -30,7 +30,7 @@ internal class Bank
 
     internal void ShowBankMenu()
     {
-        Menus menu = new Menus(this);
+        Menus menu = new(this);
         menu.ShowBankMenu();
     }
 }
