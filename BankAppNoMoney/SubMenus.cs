@@ -108,62 +108,40 @@ namespace BankAppNoMoney.Base
             {
                 selectedAccount.Deposit(depositAmount);
                 Console.WriteLine("Deposit successful. Press any key to continue...");
+                Console.ReadKey(true);
             }
-            Console.ReadKey(true);
         }
 
         public void SubMenuCreate(int choice)
         { 
-            var number = Kontonummer();
-            var namn = Kontonamn();
-            var saldo = KontoBalance();
-            
-            AccountDetails(number, namn, saldo);
-
-            var account = AccountFactory.CreateAccount(accountDetails);
+            var accountDetails = new AccountDetails(Kontonamn(), KontoInfo(1).ToString(), KontoInfo(0), (AccountType)choice);
+            bank.AddAccount(AccountFactory.CreateAccount(accountDetails));
 
             Console.WriteLine("Konto skapat. Tryck valfri tangent för att fortsätta...");
             Console.ReadKey(true);
         }
 
-        private static decimal KontoBalance()
+        private static decimal KontoInfo(int tni)
         {
-            Console.Write("Ange saldo: ");
-            bool TF = decimal.TryParse(Console.ReadLine()?.Trim(), out decimal KontoBalance);
-            while (!TF && KontoBalance > 0)
+            if(tni == 1) { Console.Write("Ange kontonummer: "); }
+            else { Console.Write("Ange saldo: "); }
+            bool TF = decimal.TryParse(Console.ReadLine()?.Trim(), out decimal KontoInfo);
+            while (!TF && KontoInfo > 0)
             {
-                Console.Write("Saldo får inte vara negativt och måste vara siffror: ");
-                TF = decimal.TryParse(Console.ReadLine()?.Trim(), out KontoBalance);
+                if (tni == 1) { Console.Write("Saldo får inte vara negativt och måste vara siffror. Ange kontonummer: "); }
+                else { Console.Write("Saldo får inte vara negativt och måste vara siffror: "); }
+                TF = decimal.TryParse(Console.ReadLine()?.Trim(), out KontoInfo);
             }
-         return KontoBalance;
-        }
-
-        private static int Kontonummer()
-        {
-            Console.Write("Ange kontonummer: ");
-            bool TF = decimal.TryParse(Console.ReadLine()?.Trim(), out decimal accountNumber);
-            while (!TF)
-            {
-                Console.Write("Kontonummer får inte vara tomt och måste vara sifror. Ange kontonummer: ");
-                TF = decimal.TryParse(Console.ReadLine()?.Trim(), out accountNumber);
-            }
-            return accountNumber;
+            if (tni == 1) { return KontoInfo; }
+            else { return KontoInfo; }
         }
 
         private static string Kontonamn()
         {
-            string accountName;
-            Console.Write("Vill du ange ett kontonamn? (Y/N): ");
-            var key = Console.ReadKey(true).Key;
-            accountName = "";
-            if (key == ConsoleKey.Y)
-            {
-                Console.WriteLine();
-                Console.Write("Ange kontonamn: ");
-                accountName = Console.ReadLine()?.Trim() ?? "";
-            }
-            else { Console.WriteLine(); }
-
+            Console.Write("Ange ett Konto namn: ");
+            
+            string accountName = Console.ReadLine()?.Trim() ?? "";
+           
             return accountName;
         }
     }

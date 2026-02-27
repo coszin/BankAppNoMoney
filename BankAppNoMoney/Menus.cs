@@ -169,7 +169,7 @@ namespace BankAppNoMoney.Base
                 throw new InvalidOperationException("Invalid menu choice");
 
             Console.Clear();
-            subMenu.SubMenuCreate(choice, accountDetails);
+            subMenu.SubMenuCreate(choice);
         }
     }
 }
